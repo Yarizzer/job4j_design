@@ -6,26 +6,25 @@ import java.util.Optional;
 
 public class MatrixIt implements Iterator<Integer> {
     private final int[][] data;
-    private int rowPointer;
+    private int rowPointer = 0;
     private int colPointer = 0;
 
     public MatrixIt(int[][] data) {
         this.data = data;
-        this.rowPointer = nextRow(0);
-    }
-
-    private int nextRow(int startRow) {
-        for (int i = startRow; i < data.length; i++) {
-            if (data[i].length > 0) {
-                return i;
-            }
-        }
-        return -1;
     }
 
     @Override
     public boolean hasNext() {
-        return rowPointer != -1;
+        if (colPointer == data[rowPointer].length) {
+            colPointer = 0;
+            for (int i = rowPointer + 1; i < data.length; i++) {
+                if (data[i].length > 0) {
+                    rowPointer = i;
+                    return true;
+                }
+            }
+        }
+        return colPointer < data[rowPointer].length;
     }
 
     @Override
@@ -33,11 +32,6 @@ public class MatrixIt implements Iterator<Integer> {
         if (!hasNext()) {
             throw new NoSuchElementException();
         }
-        var value = data[rowPointer][colPointer++];
-        if (colPointer == data[rowPointer].length) {
-            rowPointer = nextRow(rowPointer + 1);
-            colPointer = 0;
-        }
-        return value;
+        return data[rowPointer][colPointer++];
     }
 }
