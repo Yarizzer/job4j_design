@@ -1,5 +1,7 @@
 package ru.job4j.iterator;
 
+import java.sql.SQLOutput;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
@@ -13,15 +15,10 @@ public class EvenNumbersIterator implements Iterator<Integer> {
 
     @Override
     public boolean hasNext() {
-        boolean rsl = false;
-        while (index < data.length) {
-            if (data[index] % 2 == 0) {
-                rsl = true;
-                break;
-            }
+        while (index < data.length && data[index] % 2 != 0) {
             index++;
         }
-        return rsl;
+        return index < data.length && data[index] % 2 == 0;
     }
 
     @Override
