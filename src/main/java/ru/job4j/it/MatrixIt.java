@@ -1,5 +1,7 @@
 package ru.job4j.it;
 
+import org.w3c.dom.ls.LSOutput;
+
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -15,16 +17,11 @@ public class MatrixIt implements Iterator<Integer> {
 
     @Override
     public boolean hasNext() {
-        if (colPointer == data[rowPointer].length) {
+        while (rowPointer < data.length && colPointer == data[rowPointer].length) {
+            rowPointer++;
             colPointer = 0;
-            for (int i = rowPointer + 1; i < data.length; i++) {
-                if (data[i].length > 0) {
-                    rowPointer = i;
-                    return true;
-                }
-            }
         }
-        return colPointer < data[rowPointer].length;
+        return rowPointer < data.length;
     }
 
     @Override
