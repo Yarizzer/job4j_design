@@ -10,11 +10,8 @@ public class SimpleArrayList<T> implements SimpleList<T> {
         this.container = (T[]) new Object[capacity];
     }
     private void increase() {
-        if (size == container.length && container.length != 0) {
-            container = Arrays.copyOf(container, container.length * 2);
-        }
-        if (size == container.length && container.length == 0) {
-            container = Arrays.copyOf(container, container.length + 10);
+        if (size == container.length) {
+            container = Arrays.copyOf(container, container.length + (container.length == 0 ? 10 : 2));
         }
     }
     @Override
