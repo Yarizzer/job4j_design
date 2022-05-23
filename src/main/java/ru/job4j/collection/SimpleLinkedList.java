@@ -50,15 +50,15 @@ public class SimpleLinkedList<E> implements LinkedList<E> {
             private Node<E> node = first;
             @Override
             public boolean hasNext() {
+                if (count != modCount) {
+                    throw new ConcurrentModificationException();
+                }
                 return node != null;
             }
             @Override
             public E next() {
                 if (!hasNext()) {
                     throw new NoSuchElementException();
-                }
-                if (count != modCount) {
-                    throw new ConcurrentModificationException();
                 }
                 E rsl = node.item;
                 node = node.next;

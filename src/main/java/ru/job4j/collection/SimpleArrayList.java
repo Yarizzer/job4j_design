@@ -50,19 +50,19 @@ public class SimpleArrayList<T> implements SimpleList<T> {
     @Override
     public Iterator<T> iterator() {
         return new Iterator<T>() {
-            private int conut = modCount;
+            private int count = modCount;
             private int point;
             @Override
             public boolean hasNext() {
+                if (count != modCount) {
+                    throw new ConcurrentModificationException();
+                }
                 return point < size;
             }
             @Override
             public T next() {
                 if (!hasNext()) {
                     throw new NoSuchElementException();
-                }
-                if (conut != modCount) {
-                    throw new ConcurrentModificationException();
                 }
                 return container[point++];
             }
